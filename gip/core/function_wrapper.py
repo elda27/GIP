@@ -40,4 +40,10 @@ class FunctionWrapper:
     @property
     def arg_types(self):
         for arg in self.signature.parameters.values():
-            yield arg.annotation
+            if arg.annotation is self._empty:
+                if arg.default is None:
+                    yield self._empty
+                else:
+                    yield type(arg.default)
+            else:
+                yield arg.annotation
