@@ -1,4 +1,5 @@
 from gip.core.function import Function
+from functools import partial
 
 
 class Extensionable:
@@ -6,7 +7,7 @@ class Extensionable:
         cls._extensions = {}
 
     @classmethod
-    def _extend(cls, *names):
+    def _extend(cls, *names, **params):
         def _(klass):
             assert issubclass(klass, Function)
             assert hasattr(klass, '_extensions')
@@ -14,7 +15,7 @@ class Extensionable:
             for name in names:
                 assert name in cls._extensions, \
                     f'Registering extension is exist, {name}.'
-                cls._extensions[name] = klass
+                cls._extensions[name] = partial(klass, **params)
             return klass
         return _
 
