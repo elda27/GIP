@@ -1,3 +1,4 @@
+from itertools import zip_longest
 from gip.logging import get_logger
 from gip.args.exceptions import ArgparseError
 from gip.args.token import Token
@@ -9,7 +10,6 @@ def _get_kwargs(arg):
     if sep == -1:
         return (arg, None)
     else:
-
         return arg[:sep], arg[sep + 1:]
 
 
@@ -22,47 +22,29 @@ class ArgumentsParser:
             args = sys.argv[1:]
 
         self.tokens = []
-        cur_token = None
-        for i, arg in enumerate(args):
-            sep = arg.find(':')
-            if sep == -1:  # This argument is not command.
-                if cur_token is None:
-                    raise ArgparseError(args, i, 'Wrong format arguments.')
-                else:
-                    key, value = _get_kwargs(arg)
-                    if value is None:  # This argument is usualy argument.
-                        cur_token['args'].append(key)
-                    else:             # This argument is keyword argument.
-                        cur_token['kwargs'][key] = value
-                    continue
-
-            command = arg[:sep]
-
-            # Found next command.
-            if cur_token is not None and sep != -1:
-                token = Token(cur_token['namespace'], cur_token['operation'],
-                              *cur_token['args'], **cur_token['kwargs'])
-                self.tokens.append(token)
-                cur_token = None
-
-            args = []
-            kwargs = {}
-            option = arg[sep:]
-            if not option:  # This argument has argument option
-                key, value = _get_kwargs(option)
-                if value is None:  # This argument is usualy argument.
-                    args.append(key)
-                else:             # This argument is keyword argument.
-                    kwargs[key] = value
-
-            if command.find('.') != -1:  # This command has namespace
-                namespace, operation = command.split('.')
+        filtered_args = list(
+            filter(lambda iarg: iarg[1][-1] == ':', enumerate(args)))
+        for (i, arg), next_ in zip_longest(filtered_args, filtered_args[1:]):
+            if next_ is None:
+                j = len(args)
             else:
-                namespace = ''
-                operation = command
+                j = next_[0]
 
-            token = Token(namespace, operation, *args, **kwargs)
-            self.tokens.append(token)
+            command = args[i][:-1]
+            fargs = []
+            fkwargs = {}
+            for pos in range(i + 1, j):
+                key, value = _get_kwargs(args[pos])
+                if value is None:
+                    fargs.append(key)
+                else:
+                    fkwargs[key] = value
+
+            if command.find('.') != -1:
+                namespace, command = command.split('.')
+            else:
+                namespace = None
+            self.tokens.append(Token(namespace, command, *fargs, **fkwargs))
         return self.tokens
 
     def get_tokens(self):
