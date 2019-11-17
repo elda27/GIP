@@ -1,12 +1,12 @@
-from setuptools import setup, find_packages
+from setuptools import setup
 from pathlib import Path
 
 # Get version from main script
 __version__ = None
 
 src_dir = Path(__file__).parent.absolute()
-main_file = src_dir / 'gip' / 'version.py'
-with open(main_file, 'r') as fp:
+version_file = src_dir / 'gip' / 'version.py'
+with open(version_file, 'r') as fp:
     exec(fp.read())
 
 fndoc = Path(src_dir) / 'README.md'
@@ -19,8 +19,8 @@ setup(
     description='Image processing tool for console',
     long_description=README,
     license='MIT Licences',
-    url=https: // github.com/elda27/gip,
-    maintainer=elda27,
+    url='https://github.com/elda27/gip',
+    maintainer='elda27',
     # maintainer_email=None,
     platforms=['any'],
     packages=[
@@ -31,9 +31,10 @@ setup(
         'gip.envs',
         'gip.functions',
         'gip.logging',
+        'gip.image_utils',
         'gip.third_party',
     ],
-    extras_require=extras_require,
+    extras_require={},
     entry_points={
         'console_scripts': [
             "gip = gip.main:main"
