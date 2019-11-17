@@ -1,4 +1,5 @@
 from abc import abstractmethod, ABCMeta
+import numpy as np
 
 
 class AbstractImage(metaclass=ABCMeta):
@@ -15,6 +16,11 @@ class AbstractImage(metaclass=ABCMeta):
     def __getattr__(self, name):
         assert name not in self.shape_accessor, f'Unknown accessor name:{name}'
         self.shape[self.shape_format.index(self.shape_accessor[name])]
+
+    @property
+    @abstractmethod
+    def roi_image(self, x, y, width, height):
+        raise NotImplementedError
 
     @property
     @abstractmethod
