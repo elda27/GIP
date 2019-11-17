@@ -11,7 +11,7 @@ class Help(Function):
 
         Args:
             func_name (str, optional): Function name. Defaults to None.
-            verbose (bool, optional): If true, print verbose message. 
+            verbose (bool, optional): If true, print verbose message.
                 Defaults to False.
         """
         self.func_name = func_name
@@ -30,9 +30,12 @@ class Help(Function):
         else:
             f_wrap = self._manager.get_function_wrapper(self.func_name)
             if self.verbose:
+                self.print_command(f_wrap)
+                print('-' * 80)
                 self.print_verbose(f_wrap)
             else:
-                self.print_simple(f_wrap)
+                self.print_command(f_wrap)
+                print(f_wrap.verbose_help[:f_wrap.verbose_help.find('\n')])
 
     def print_usage(self):
         print(
@@ -41,8 +44,23 @@ class Help(Function):
             'or need more help about any command, '
             'please type "gip help: <command name>".')
 
-    def print_simple(self, f_wrap):
-        print(str(f_wrap.signature))
+    def print_command(self, f_wrap):
+        # for param in f_wrap.signature.parameters:
+        command_help = f'{f_wrap.function._name}: '
+        for key, param in list(f_wrap.signature.parameters.items())[1:]:
+            if param.default is f_wrap._empty:
+                command_help += f'<{param}> '
+            else:
+                command_help += f'[{param}] '
+
+        print(f'Usage: {command_help}')
 
     def print_verbose(self, f_wrap):
-        print(f_wrap.verbose_help)
+        lines = f_wrap.verbose_help.split('\n')
+        pos = 0
+        for i, s in enumerate(lines[2]):
+            if s != ' ':
+                pos = i
+                break
+        args = map(lambda x: x[pos:], lines[2:])
+        print('\n'.join(args))

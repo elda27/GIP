@@ -41,7 +41,7 @@ class FunctionWrapper:
     def arg_types(self):
         for arg in self.signature.parameters.values():
             if arg.annotation is self._empty:
-                if arg.default is None:
+                if arg.default is self._empty:
                     yield self._empty
                 else:
                     yield type(arg.default)

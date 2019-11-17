@@ -27,5 +27,7 @@ _manager = FunctionManager()
 
 def register_function(name):
     def _(klass):
+        klass._name = name
         _manager.register(name, klass)
+        return klass
     return _
