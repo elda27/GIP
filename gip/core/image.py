@@ -3,9 +3,19 @@ import numpy as np
 
 
 class Image(AbstractImage):
-    def __init__(self):
+    def __init__(self, data=None):
         super().__init__()
-        self.image_data = np.array()
+        self.image_data = data
+
+    def roi_image(self, x, y, width, height):
+        h = self.shape_format.index('H')
+        w = self.shape_format.index('W')
+
+        slices = [slice(s) for s in self.shape]
+        slices[w] = slice(x, x + width)
+        slices[h] = slice(y, y + height)
+
+        return Image(self.image_data[tuple(slices)])
 
     @property
     def shape(self):
