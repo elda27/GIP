@@ -1,5 +1,5 @@
 from gip.core.function import Function
-from functools import partial
+from functools import partial, wraps
 
 
 class Extensionable:
@@ -13,9 +13,11 @@ class Extensionable:
             assert hasattr(klass, '_extensions')
 
             for name in names:
-                assert name in cls._extensions, \
-                    f'Registering extension is exist, {name}.'
-                cls._extensions[name] = partial(klass, **params)
+                k = partial(klass, **params)
+
+                # assert name in cls._extensions, \
+                #     f'Registering extension is exist, {name}.'
+                cls._extensions[name] = k
             return klass
         return _
 
