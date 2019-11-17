@@ -30,6 +30,7 @@ setup(
         'gip.core',
         'gip.envs',
         'gip.functions',
+        'gip.functions.concat',
         'gip.logging',
         'gip.image_utils',
         'gip.third_party',
