@@ -7,7 +7,7 @@ def convert(type_, value):
     if type_ in _converters:
         return _converters[type_](value)
     else:
-        type_(value)
+        return type_(value)
 
 
 def has_converter(type_):
