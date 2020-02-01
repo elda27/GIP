@@ -1,5 +1,4 @@
 [run]
-show_missing = True
 omit =
     gip/__main__.py
     gip/third_party/**
