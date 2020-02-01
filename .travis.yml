@@ -22,7 +22,7 @@ python:
   - "3.8"
 install:
   - python setup.py install
-  - pip install pytest
+  - pip install pytest coverage
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
