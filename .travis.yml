@@ -4,6 +4,9 @@ os:
 env:
   global:
     - PIP_CACHE_DIR="$HOME/.cache/pip"  # unify pip cache location for all platforms
+# use cache for big builds like pandas (to minimise build time).
+# If issues, clear cache
+# https://docs.travis-ci.com/user/caching/#Clearing-Caches
     - CC_TEST_REPORTER_ID=e2988dee80a9ae39a236b07e5af0e7142d5f8c6cb80368b6b76ec590eb628fb0
 cache:
   pip: true
@@ -20,15 +23,15 @@ python:
 install:
   - python setup.py install
   - pip install pytest
-script:
-  - pytest
-branches:
-  only:
-    - master
-
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
+script:
+  - coverage run -m pytest
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+branches:
+  only:
+    - master
+  
