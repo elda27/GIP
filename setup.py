@@ -27,6 +27,12 @@ setup(
         "numpy",
         "imageio",
     ],
+    extras_require={
+        'dev': [
+            'pytest',
+            'coverage'
+        ],
+    },
     packages=[
         'gip',
         'gip.args',
