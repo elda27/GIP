@@ -2,22 +2,16 @@ import os
 from pathlib import Path
 
 
-def get_application_local_dir():
+def get_application_local_dir() -> Path:
     """Get directory to save application config etc.
-
-    Returns:
-        Path
     """
     if os.name == 'nt':
         return Path(os.environ.get('LOCALAPPDATA')) / 'cip'
     else:
-        return Path(os.environ.get('HOME') / '.gip')
+        return Path(os.environ.get('HOME')) / '.gip'
 
 
-def get_log_dir():
+def get_log_dir() -> Path:
     """Get log directory
-
-    Returns:
-        Path: 
     """
-    return Path(get_application_local_dir() / 'log')
+    return get_application_local_dir() / 'log'
