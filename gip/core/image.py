@@ -1,10 +1,9 @@
 from gip.core.abstract_image import AbstractImage
-import numpy as np
 
 
 class Image(AbstractImage):
-    def __init__(self, data=None):
-        super().__init__()
+    def __init__(self, data=None, shape_format='HWC'):
+        super().__init__(shape_format)
         self.image_data = data
 
     def roi_image(self, x, y, width, height):

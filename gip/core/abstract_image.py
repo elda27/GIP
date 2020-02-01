@@ -1,5 +1,4 @@
 from abc import abstractmethod, ABCMeta
-import numpy as np
 
 
 class AbstractImage(metaclass=ABCMeta):
@@ -25,16 +24,6 @@ class AbstractImage(metaclass=ABCMeta):
     @property
     @abstractmethod
     def shape(self):
-        raise NotImplementedError
-
-    @property
-    @abstractmethod
-    def channel(self):
-        raise NotImplementedError
-
-    @property
-    @abstractmethod
-    def channel(self):
         raise NotImplementedError
 
     @property

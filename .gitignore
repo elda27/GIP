@@ -6,3 +6,4 @@ build
 dist
 sdist
 gip.egg-info
+.files.txt
