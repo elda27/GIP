@@ -1,5 +1,6 @@
-
 language: python
+os:
+  - linux
 env:
   global:
     - PIP_CACHE_DIR="$HOME/.cache/pip"  # unify pip cache location for all platforms
