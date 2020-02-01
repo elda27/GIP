@@ -7,7 +7,7 @@ env:
 # use cache for big builds like pandas (to minimise build time).
 # If issues, clear cache
 # https://docs.travis-ci.com/user/caching/#Clearing-Caches
-    - CC_TEST_REPORTER_ID=e2988dee80a9ae39a236b07e5af0e7142d5f8c6cb80368b6b76ec590eb628fb0
+    - CODECOV_TOKEN="32b85751-4cf0-4ab3-b075-d191ec1e1e05"
 cache:
   pip: true
   directories:
@@ -22,16 +22,12 @@ python:
   - "3.8"
 install:
   - python setup.py install
-  - pip install pytest coverage
-before_script:
-  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-  - chmod +x ./cc-test-reporter
-  - ./cc-test-reporter before-build
+  - pip install pytest coverage codecov
+#before_script:
 script:
   - coverage run -m pytest
 after_script:
-  - coverage xml
-  - ./cc-test-reporter after-build --coverage-input-type coverage.py --exit-code $TRAVIS_TEST_RESULT --prefix $(python -c "import gip; from pathlib import Path; print(Path(gip.__file__).parent)")
+  - codecov
 branches:
   only:
     - master
