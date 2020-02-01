@@ -23,6 +23,10 @@ setup(
     maintainer='elda27',
     # maintainer_email=None,
     platforms=['any'],
+    install_requires=[
+        "numpy",
+        "imageio",
+    ],
     packages=[
         'gip',
         'gip.args',
@@ -60,6 +64,7 @@ setup(
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
     ],
     # keywords=None,
 )
