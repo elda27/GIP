@@ -25,7 +25,7 @@ install:
   - pip install pytest coverage codecov
 #before_script:
 script:
-  -  pytest -v --cov=gip
+  - coverage run --source=gip -m pytest
 after_script:
   - codecov
 branches:
