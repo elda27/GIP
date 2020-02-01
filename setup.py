@@ -45,7 +45,6 @@ setup(
         'gip.image_utils',
         'gip.third_party',
     ],
-    extras_require={},
     entry_points={
         'console_scripts': [
             "gip = gip.main:main"
