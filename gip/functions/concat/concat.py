@@ -12,8 +12,8 @@ import numpy as np
 class Concat(Function, core.Extensionable):
     def __init__(
             self, image: Variable, *images: Variable, stack: str = 'horz',
-            mode: str = 'square', image_type: str = None,
-            background: Color = Color('k')
+            align: str = 'center|center', mode: str = 'square',
+            image_type: str = None, background: Color = Color('k')
     ):
         """Concat images
 
@@ -24,16 +24,17 @@ class Concat(Function, core.Extensionable):
             stack (str, optional): Stacking method, {'horz', 'vert', 'MxN'}. 
                 About 'MxN', a shape of stacking and M or N should be digit.
                 Defaults to 'horz'.
-            mode (str, optional): Alignment size method of the 
-                difference sizes. Defaults to 'square'.
-            image_type (str, optional): Concatenation will be applied 
-                this image type. Reserved parameter. 
-                Defaults to None.
+            align (str, optional): The alignment of the images 
+                (left;center;right). The character string divided by | is 
+                processed according to the shape_format setting of the image.
+            mode (str, optional): Reserved parameter (now unsupported).
+            image_type (str, optional): Reserved parameter (now unsupported).
             background (Color, optional): Padding color 
         """
         self.images = self.get_images_from_variable(image, *images)
         self.stack = stack
         self.mode = f'concat_image_{mode}'
+        self.align = align
         self.image_type = 'image'
         self.stack_shape = self.get_stack(self.stack)
         self.background = background
@@ -44,7 +45,8 @@ class Concat(Function, core.Extensionable):
 
         super().__init__(
             image, *image,
-            stack=stack, mode=mode, image_type=image_type)
+            stack=stack, mode=mode, image_type=image_type
+        )
 
     def validate(self):
         x, y = self.get_stack(self.stack)
