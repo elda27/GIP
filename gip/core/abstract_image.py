@@ -13,8 +13,8 @@ class AbstractImage(metaclass=ABCMeta):
         self.shape_format = shape_format
 
     def __getattr__(self, name):
-        assert name not in self.shape_accessor, f'Unknown accessor name:{name}'
-        self.shape[self.shape_format.index(self.shape_accessor[name])]
+        assert name in self.shape_accessor, f'Unknown accessor name:{name}'
+        return self.shape[self.shape_format.index(self.shape_accessor[name])]
 
     @property
     @abstractmethod
