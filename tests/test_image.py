@@ -24,21 +24,24 @@ def test_instance(image_type):
         raise
 
 
-# @pytest.mark.parametrize(
-#     'mapped_shape', [
-#         {'width': 480, 'height': 640, 'channel': 6, },
-#         {'width': 430, 'channel': 1, 'height': 240, },
-#         {'channel': 1, 'width': 480, 'height': 640, },
-#         {'height': 240, 'width': 480, 'channel': 3, },
-#     ]
-# )
-# def test_accessor(mapped_shape):
-#     image = core.Image(shape_format=''.join(
-#         map(lambda x: x[0].upper(), mapped_shape.keys())))
-#     image.data = np.zeros(mapped_shape.values())
+@pytest.mark.parametrize(
+    'mapped_shape', [
+        {'width': 480, 'height': 640, 'channel': 6, },
+        {'width': 430, 'channel': 1, 'height': 240, },
+        {'channel': 1, 'width': 480, 'height': 640, },
+        {'height': 240, 'width': 480, 'channel': 3, },
+    ]
+)
+def test_accessor(mapped_shape):
+    image = core.Image(
+        np.zeros(tuple(mapped_shape.values())),
+        shape_format=''.join(
+            map(lambda x: x[0].upper(), mapped_shape.keys())
+        )
+    )
 
-#     for key, size in mapped_shape.items():
-#         assert getattr(image, key) == size
+    for key, size in mapped_shape.items():
+        assert getattr(image, key) == size
 
 
 if __name__ == "__main__":
