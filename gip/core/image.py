@@ -14,7 +14,9 @@ class Image(AbstractImage):
         slices[w] = slice(x, x + width)
         slices[h] = slice(y, y + height)
 
-        return Image(self.image_data[tuple(slices)])
+        return Image(
+            self.image_data[tuple(slices)],
+            shape_format=self.shape_format)
 
     @property
     def shape(self):
